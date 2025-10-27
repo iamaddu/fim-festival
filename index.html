@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಪಡೆದುಕೊಳ್ಳಿ ಚಿತ್ರ ರಹಸ್ಯ | Film Festival Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        header {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid #ff6b6b;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffd93d;
+            text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .language-badge {
+            display: inline-block;
+            background: #6b5bff;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0 5px;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .movie-frame {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(20px);
+            transition: filter 0.5s ease;
+        }
+
+        .movie-info {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #ffd93d;
+        }
+
+        .controls {
+            margin: 20px 0;
+        }
+
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        button:hover {
+            background: #ff8e8e;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+        }
+
+        button:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .reveal-btn {
+            background: #6b5bff;
+            box-shadow: 0 5px 15px rgba(107, 91, 255, 0.3);
+        }
+
+        .reveal-btn:hover {
+            background: #8a7dff;
+            box-shadow: 0 8px 20px rgba(107, 91, 255, 0.5);
+        }
+
+        .skip-btn {
+            background: #4ecdc4;
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .skip-btn:hover {
+            background: #70d6cf;
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.5);
+        }
+
+        .guess-container {
+            margin: 20px 0;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            margin-right: 10px;
+        }
+
+        .hint {
+            margin: 15px 0;
+            font-style: italic;
+            color: #ffd93d;
+            min-height: 24px;
+        }
+
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .level-indicator {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .level-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #333;
+            margin: 0 5px;
+        }
+
+        .level-dot.active {
+            background: #ffd93d;
+        }
+
+        .game-over {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .final-score {
+            font-size: 2rem;
+            color: #ffd93d;
+            margin: 20px 0;
+        }
+
+        footer {
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .movie-frame {
+                height: 200px;
+            }
+            
+            input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            button {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .score-board {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo">TIFA</div>
+            <div>
+                <h1>ಪಡೆದುಕೊಳ್ಳಿ ಚಿತ್ರ ರಹಸ್ಯ</h1>
+                <p class="subtitle">Guess the Movie from the Blurred Frame</p>
+            </div>
+        </div>
+
+        <header>
+            <p class="subtitle">Featuring Kannada, Indian, Hollywood, Tollywood, Sandalwood & Anime Movies</p>
+            <div>
+                <span class="language-badge">ಕನ್ನಡ</span>
+                <span class="language-badge">Hindi</span>
+                <span class="language-badge">Tollywood</span>
+                <span class="language-badge">Hollywood</span>
+                <span class="language-badge">Anime</span>
+            </div>
+        </header>
+
+        <div class="game-container">
+            <div class="score-board">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="level">Level: <span id="level">1</span>/5</div>
+                <div class="lives">Lives: <span id="lives">3</span></div>
+            </div>
+
+            <div class="level-indicator">
+                <div class="level-dot active" id="dot1"></div>
+                <div class="level-dot" id="dot2"></div>
+                <div class="level-dot" id="dot3"></div>
+                <div class="level-dot" id="dot4"></div>
+                <div class="level-dot" id="dot5"></div>
+            </div>
+
+            <div class="movie-info" id="movieInfo"></div>
+
+            <div class="movie-frame">
+                <img id="movieImage" src="" alt="Movie frame">
+            </div>
+
+            <div class="hint" id="hint"></div>
+
+            <div class="controls">
+                <button id="revealBtn" class="reveal-btn">Reveal More</button>
+                <button id="skipBtn" class="skip-btn">Skip Movie</button>
+            </div>
+
+            <div class="guess-container">
+                <input type="text" id="guessInput" placeholder="Enter movie name...">
+                <button id="submitBtn">Submit Guess</button>
+            </div>
+
+            <div class="result" id="result"></div>
+        </div>
+
+        <div class="game-over" id="gameOver" style="display: none;">
+            <h2>Game Over!</h2>
+            <p>You've completed the Film Festival Challenge!</p>
+            <div class="final-score">Final Score: <span id="finalScore">0</span></div>
+            <button id="restartBtn">Play Again</button>
+        </div>
+
+        <footer>
+            <p>ಪಡೆದುಕೊಳ್ಳಿ ಚಿತ್ರ ರಹಸ್ಯ - TIFA Film Festival Game | Created for educational purposes</p>
+        </footer>
+    </div>
+
+    <script>
+        // Movie database with hints - Mixed Indian and International films
+        const movies = [
+            // Kannada Movies
+            {
+                title: "KGF",
+                image: "kgf.jpeg",
+                hint: "A boy from the streets of Bombay becomes India's greatest rebel.",
+                language: "Kannada",
+                industry: "Sandalwood"
+            },
+            {
+                title: "Kantara",
+                image: "kantara.jpeg",
+                hint: "A human vs nature conflict where a local demigod becomes a person's saviour.",
+                language: "Kannada", 
+                industry: "Sandalwood"
+            },
+            {
+                title: "Mungaru Male",
+                image: "mungarumale.jpeg",
+                hint: "A love story set during the pre-monsoon period in Karnataka.",
+                language: "Kannada",
+                industry: "Sandalwood"
+            },
+            
+            // Bollywood Movies
+            {
+                title: "3 Idiots",
+                image: "3 idiots.jpeg",
+                hint: "Two friends search for their long-lost companion from engineering college.",
+                language: "Hindi",
+                industry: "Bollywood"
+            },
+            {
+                title: "Dangal",
+                image: "dangal.jpeg",
+                hint: "Former wrestler trains his daughters to become world-class wrestlers.",
+                language: "Hindi",
+                industry: "Bollywood"
+            },
+            
+            // Tollywood Movies
+            {
+                title: "Baahubali",
+                image: "bahubali.jpeg",
+                hint: "Epic story of a mysterious man who saves a queen and reclaims his kingdom.",
+                language: "Telugu",
+                industry: "Tollywood"
+            },
+            {
+                title: "RRR",
+                image: "rrr.jpeg",
+                hint: "Fictional story about two Indian revolutionaries and their friendship.",
+                language: "Telugu",
+                industry: "Tollywood"
+            },
+            
+            // Hollywood Movies
+            {
+                title: "The Dark Knight",
+                image: "dark.jpeg",
+                hint: "Batman faces his greatest challenge in the form of the chaotic Joker.",
+                language: "English",
+                industry: "Hollywood"
+            },
+            {
+                title: "Inception",
+                image: "inception.jpeg",
+                hint: "A thief who steals corporate secrets uses dream-sharing technology.",
+                language: "English",
+                industry: "Hollywood"
+            },
+            
+            // Anime Movies
+            {
+                title: "Your Name",
+                image: "yourname.jpeg",
+                hint: "Two teenagers who swap bodies and develop a connection.",
+                language: "Japanese",
+                industry: "Anime"
+            },
+            {
+                title: "Spirited Away",
+                image: "spiritedaway.jpeg",
+                hint: "A young girl works in a bathhouse for spirits to free her parents.",
+                language: "Japanese",
+                industry: "Anime"
+            },
+            {
+                title: "Demon Slayer",
+                image: "demonslayer.jpeg",
+                hint: "A boy becomes a demon slayer to avenge his family and cure his sister.",
+                language: "Japanese",
+                industry: "Anime"
+            }
+        ];
+
+        // Game state
+        let currentMovieIndex = 0;
+        let score = 0;
+        let lives = 3;
+        let level = 1;
+        let blurLevel = 20;
+        let revealed = false;
+        let usedMovies = [];
+
+        // DOM elements
+        const movieImage = document.getElementById('movieImage');
+        const movieInfoElement = document.getElementById('movieInfo');
+        const hintElement = document.getElementById('hint');
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const livesElement = document.getElementById('lives');
+        const guessInput = document.getElementById('guessInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const revealBtn = document.getElementById('revealBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const resultElement = document.getElementById('result');
+        const gameOverElement = document.getElementById('gameOver');
+        const finalScoreElement = document.getElementById('finalScore');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // Initialize game
+        function initGame() {
+            score = 0;
+            lives = 3;
+            level = 1;
+            blurLevel = 20;
+            usedMovies = [];
+            updateUI();
+            loadRandomMovie();
+            
+            // Hide game over screen
+            gameOverElement.style.display = 'none';
+            document.querySelector('.game-container').style.display = 'block';
+        }
+
+        // Load a random movie
+        function loadRandomMovie() {
+            // Reset game state for new movie
+            revealed = false;
+            blurLevel = 20;
+            resultElement.textContent = '';
+            resultElement.className = 'result';
+            guessInput.value = '';
+            
+            // Get a movie that hasn't been used yet
+            let availableMovies = movies.filter(movie => !usedMovies.includes(movie.title));
+            
+            if (availableMovies.length === 0) {
+                // All movies used, reset
+                usedMovies = [];
+                availableMovies = movies;
+            }
+            
+            // Select random movie
+            const randomIndex = Math.floor(Math.random() * availableMovies.length);
+            const movie = availableMovies[randomIndex];
+            currentMovieIndex = movies.findIndex(m => m.title === movie.title);
+            
+            // Update UI
+            movieImage.src = movie.image;
+            movieImage.style.filter = `blur(${blurLevel}px)`;
+            hintElement.textContent = '';
+            
+            // Update movie info
+            movieInfoElement.textContent = `${movie.industry} • ${movie.language}`;
+            
+            // Add to used movies
+            usedMovies.push(movie.title);
+            
+            // Update level indicator
+            updateLevelIndicator();
+        }
+
+        // Update level indicator dots
+        function updateLevelIndicator() {
+            const dots = document.querySelectorAll('.level-dot');
+            dots.forEach((dot, index) => {
+                if (index < level) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Update UI elements
+        function updateUI() {
+            scoreElement.textContent = score;
+            levelElement.textContent = level;
+            livesElement.textContent = lives;
+        }
+
+        // Reveal more of the image
+        function revealMore() {
+            if (blurLevel > 5) {
+                blurLevel -= 5;
+                movieImage.style.filter = `blur(${blurLevel}px)`;
+                
+                // Show hint when blur is reduced enough
+                if (blurLevel <= 10 && !revealed) {
+                    hintElement.textContent = `Hint: ${movies[currentMovieIndex].hint}`;
+                    revealed = true;
+                }
+            }
+        }
+
+        // Improved answer checking function
+        function checkAnswer(guess, correctAnswer, aliases) {
+            // Normalize the guess
+            const normalizedGuess = guess.toLowerCase().trim().replace(/\s+/g, ' ');
+            
+            // Check against main title
+            const normalizedCorrect = correctAnswer.toLowerCase().trim();
+            if (normalizedGuess === normalizedCorrect) {
+                return true;
+            }
+            
+            // Check against aliases
+            if (aliases && aliases.some(alias => normalizedGuess === alias.toLowerCase())) {
+                return true;
+            }
+            
+            // Check for partial matches (if guess is at least 3 characters)
+            if (normalizedGuess.length >= 3) {
+                if (normalizedCorrect.includes(normalizedGuess) || 
+                    normalizedGuess.includes(normalizedCorrect) ||
+                    (aliases && aliases.some(alias => alias.toLowerCase().includes(normalizedGuess)))) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        // Check the player's guess
+        function checkGuess() {
+            const guess = guessInput.value.trim();
+            const correctAnswer = movies[currentMovieIndex].title;
+            const aliases = movies[currentMovieIndex].aliases;
+            
+            if (guess === '') return;
+            
+            // Check if guess is correct using improved function
+            if (checkAnswer(guess, correctAnswer, aliases)) {
+                // Correct guess
+                resultElement.textContent = `Correct! It's "${movies[currentMovieIndex].title}"`;
+                resultElement.className = 'result correct';
+                
+                // Increase score based on blur level (more points for harder guesses)
+                const pointsEarned = 100 + (blurLevel * 5);
+                score += pointsEarned;
+                
+                // Check if level should increase
+                if (score >= level * 500) {
+                    level++;
+                    lives++; // Reward with extra life
+                }
+                
+                // Load next movie after delay
+                setTimeout(loadRandomMovie, 2000);
+            } else {
+                // Incorrect guess
+                resultElement.textContent = `Wrong! Try again.`;
+                resultElement.className = 'result incorrect';
+                
+                // Lose a life
+                lives--;
+                
+                // Check if game over
+                if (lives <= 0) {
+                    endGame();
+                }
+            }
+            
+            updateUI();
+        }
+
+        // Skip the current movie
+        function skipMovie() {
+            lives--;
+            resultElement.textContent = `Skipped! It was "${movies[currentMovieIndex].title}"`;
+            resultElement.className = 'result incorrect';
+            
+            updateUI();
+            
+            if (lives <= 0) {
+                endGame();
+            } else {
+                setTimeout(loadRandomMovie, 2000);
+            }
+        }
+
+        // End the game
+        function endGame() {
+            document.querySelector('.game-container').style.display = 'none';
+            gameOverElement.style.display = 'block';
+            finalScoreElement.textContent = score;
+        }
+
+        // Event listeners
+        submitBtn.addEventListener('click', checkGuess);
+        revealBtn.addEventListener('click', revealMore);
+        skipBtn.addEventListener('click', skipMovie);
+        restartBtn.addEventListener('click', initGame);
+
+        // Allow Enter key to submit guess
+        guessInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkGuess();
+            }
+        });
+
+        // Start the game
+        initGame();
+    </script>
+</body>
+</html>
